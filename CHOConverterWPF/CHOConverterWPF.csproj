@@ -68,7 +68,6 @@
 			<VersionNumber Include="@(Targets->'%(Version)')" />
 		</ItemGroup>
 		
-	  <Exec Command="if /I &quot;$(Configuration)&quot;==&quot;Release&quot; (&#xD;&#xA;echo &quot;signing ...&quot;&#xD;&#xA;&quot;C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe&quot; sign /v /tr &quot;http://timestamp.digicert.com&quot; /fd sha256 /td sha256 /sha1 ce53152c1f26905c8486015021eb7c608f35a759 &quot;$(TargetPath)&quot;&#xD;&#xA;&quot;C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe&quot; sign /v /tr &quot;http://timestamp.digicert.com&quot; /fd sha256 /td sha256 /sha1 ce53152c1f26905c8486015021eb7c608f35a759 &quot;$(TargetDir)$(TargetName).exe&quot;&#xD;&#xA;)&#xD;&#xA;" />
 	  <!-- Copy x64 native DLLs -->
   <Copy SourceFiles="..\SongConvertersOCR\bin\$(Configuration)\net10.0-windows\x64\tesseract50.dll" DestinationFolder="$(OutputPath)x64" ContinueOnError="true" />
   <Copy SourceFiles="..\SongConvertersOCR\bin\$(Configuration)\net10.0-windows\x64\leptonica-1.82.0.dll" DestinationFolder="$(OutputPath)x64" ContinueOnError="true" />

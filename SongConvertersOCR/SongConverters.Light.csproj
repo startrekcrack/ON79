@@ -6,8 +6,6 @@
     <Nullable>disable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <!-- Code-signing is opt-in. Enable with: dotnet build -c Release /p:EnableSigning=true -->
-    <EnableSigning>false</EnableSigning>
     <AssemblyName>SongConverters</AssemblyName>
     <RootNamespace>SongConverters</RootNamespace>
     <Description>Process SongBeamer Files (NET10) – Light build without OCR</Description>
@@ -50,11 +48,5 @@
     <PackageReference Include="UglyToad.PdfPig" Version="1.7.0-custom-5" />
     <PackageReference Include="Docnet.Core" Version="2.6.0" />
   </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <!-- Sign all unsigned DLLs in the output directory.
-         Light build: no OCR/Paddle/OpenCV DLLs, only Docnet, UglyToad, DocumentFormat.OpenXml -->
-    <Exec Command="if /I &quot;$(Configuration)&quot;==&quot;Release&quot; (&#xD;&#xA;echo [SongConverters.Light] Signing all unsigned DLLs in $(TargetDir)...&#xD;&#xA;for /r &quot;$(TargetDir)&quot; %%f in (*.dll) do (&#xD;&#xA;&quot;C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe&quot; verify /q /pa &quot;%%f&quot; &gt;nul 2&gt;&amp;1&#xD;&#xA;if errorlevel 1 (&#xD;&#xA;echo Signing %%~nxf...&#xD;&#xA;&quot;C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe&quot; sign /q /tr &quot;http://timestamp.digicert.com&quot; /fd sha256 /td sha256 /sha1 ce53152c1f26905c8486015021eb7c608f35a759 &quot;%%f&quot;&#xD;&#xA;)&#xD;&#xA;)&#xD;&#xA;)&#xD;&#xA;" />
-  </Target>
 
 </Project>

@@ -6,8 +6,6 @@
 		<Nullable>disable</Nullable>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-		<!-- Code-signing is opt-in. Enable with: dotnet build -c Release /p:EnableSigning=true -->
-		<EnableSigning>false</EnableSigning>
 		<AssemblyName>SongConvertersOCR</AssemblyName>
 		<Description>Process SongBeamer Files (NET10)</Description>
 		<Company>Oliver Niehus</Company>
@@ -43,17 +41,5 @@
       <Link>tessdata\%(RecursiveDir)%(Filename)%(Extension)</Link>
     </Content>
   </ItemGroup>
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-<!-- Sign all unsigned DLLs in the output directory (flat + subdirs).
-     Vendor-signed files (DocumentFormat.OpenXml, libiomp5md/mklml by Intel,
-     onnxruntime by Microsoft, ...) are automatically skipped because
-     "signtool verify /pa" returns 0 for them.
-     Unsigned third-party files (Tesseract, tesseract50, leptonica, Docnet,
-     Sdcb.Paddle*, paddle_inference_c, paddle2onnx, pdfium, OpenCvSharp,
-     opencv_videoio, mkldnn, common, UglyToad.PdfPig*, YamlDotNet, ...)
-     and our own SongConverters.dll are signed here so that consuming
-     projects (SearchSong, SongCreator, SongConvertersRunner) receive pre-signed copies. -->
-<Exec Command="if /I &quot;$(Configuration)&quot;==&quot;Release&quot; (&#xD;&#xA;echo [SongConverters] Signing all unsigned DLLs in $(TargetDir)...&#xD;&#xA;for /r &quot;$(TargetDir)&quot; %%f in (*.dll) do (&#xD;&#xA;&quot;C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe&quot; verify /q /pa &quot;%%f&quot; &gt;nul 2&gt;&amp;1&#xD;&#xA;if errorlevel 1 (&#xD;&#xA;echo Signing %%~nxf...&#xD;&#xA;&quot;C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe&quot; sign /q /tr &quot;http://timestamp.digicert.com&quot; /fd sha256 /td sha256 /sha1 ce53152c1f26905c8486015021eb7c608f35a759 &quot;%%f&quot;&#xD;&#xA;)&#xD;&#xA;)&#xD;&#xA;)&#xD;&#xA;" />
-</Target>
 
 </Project>
