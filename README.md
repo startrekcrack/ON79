@@ -1,6 +1,6 @@
 # CHOConverter
 
-Converts PDF and DOCX song sheets to **ChordPro** format (`.cho`).
+Converts PDF and DOCX song sheets to **ChordPro-compatible** `.cho` files.
 
 Available as **WPF desktop app** (CHOConverterWPF), **Windows Forms GUI** (CHOConverterGUI), and **CLI** (CHOConverterCLI).
 
