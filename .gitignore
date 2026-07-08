@@ -1,0 +1,40 @@
+# .NET build output
+bin/
+obj/
+*.user
+*.suo
+
+# Visual Studio
+.vs/
+
+# WiX Installer build output
+CHOConverterSetup/Debug/
+CHOConverterSetup/Release/
+CHOConverterSetup/obj/
+
+# Alternative bin folder (Light build)
+SongConvertersOCR/bin.Light/
+
+# Sample files (copyright-protected song sheets — not for public distribution)
+Samples/
+
+# Compare folder test files (copyrighted song sheets used for dev comparison)
+SongConvertersOCR/Compare/*.pdf
+SongConvertersOCR/Compare/*.docx
+SongConvertersOCR/Compare/*.cho
+
+# Backup files
+*.bak
+
+# Tesseract training data (large binary files, download separately)
+tessdata/
+**/tessdata/
+
+# Native DLLs (large binaries — distributed via installer)
+pdfium.dll
+**/DLLs/
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store

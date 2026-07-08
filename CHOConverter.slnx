@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="CHOConverterCLI/CHOConverterCLI.csproj" />
+  <Project Path="CHOConverterGUI/CHOConverterGUI.csproj" />
+  <Project Path="CHOConverterWPF/CHOConverterWPF.csproj" />
+  <Project Path="SongConvertersOCR/SongConvertersOCR.csproj" />
+</Solution>

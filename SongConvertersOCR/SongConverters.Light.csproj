@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <!-- Code-signing is opt-in. Enable with: dotnet build -c Release /p:EnableSigning=true -->
+    <EnableSigning>false</EnableSigning>
+    <AssemblyName>SongConverters</AssemblyName>
+    <RootNamespace>SongConverters</RootNamespace>
+    <Description>Process SongBeamer Files (NET10) – Light build without OCR</Description>
+    <Company>Oliver Niehus</Company>
+    <Version>1.0.1.2</Version>
+    <AssemblyVersion>1.0.1.2</AssemblyVersion>
+    <FileVersion>1.0.1.2</FileVersion>
+    <Copyright>Copyright ©  2021-2099</Copyright>
+    <PackageTags>docx;chordpro;song;converter;openxml</PackageTags>
+    <!-- Separate output folder so Full and Light can coexist side by side -->
+    <BaseOutputPath>bin.Light</BaseOutputPath>
+  </PropertyGroup>
+
+  <!-- Exclude OCR files – those only belong in the Full (SongConverters) build -->
+  <ItemGroup>
+    <Compile Remove="Compare\**\*.cs" />
+    <Compile Remove="OcrBackend.cs" />
+    <!-- OcrChoComposer.cs stays: pure string utility, no OCR package deps, used by PdfToChoConverterImproved -->
+    <Compile Remove="OcrChordProComposer.cs" />
+    <!-- OcrLayoutModels.cs stays: contains OcrWord/OcrLine/OcrPage records + IOcrLayoutEngine interface (pure DTOs, no OCR package deps) -->
+    <Compile Remove="OcrOutputCleaner.cs" />
+    <Compile Remove="OcrRuntimeFactory.cs" />
+    <Compile Remove="PaddleOcrEngine.cs" />
+    <Compile Remove="TesseractLayoutOcrEngine.cs" />
+    <Compile Remove="TesseractOcrEngine.cs" />
+    <Compile Remove="TesseractOcrEngineAdvanced.cs" />
+    <Compile Remove="TimeoutOcrEngine.cs" />
+    <Compile Remove="WindowsMediaOcrEngine.cs" />
+    <Compile Remove="ImagePreprocessor.cs" />
+    <Compile Remove="SheetMusicDetector.cs" />
+    <Compile Remove="DocxToChoConverterOpenXmlImageOcr.cs" />
+    <Compile Remove="DocxToChoConverterOpenXmlImageOcrDualLayout.cs" />
+    <Compile Remove="PdfToChoConverterOcrDualLayout.cs" />
+    <Compile Remove="PdfToChoConverterOcrLayout.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.4.1" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.3" />
+    <PackageReference Include="UglyToad.PdfPig" Version="1.7.0-custom-5" />
+    <PackageReference Include="Docnet.Core" Version="2.6.0" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <!-- Sign all unsigned DLLs in the output directory.
+         Light build: no OCR/Paddle/OpenCV DLLs, only Docnet, UglyToad, DocumentFormat.OpenXml -->
+    <Exec Command="if /I &quot;$(Configuration)&quot;==&quot;Release&quot; (&#xD;&#xA;echo [SongConverters.Light] Signing all unsigned DLLs in $(TargetDir)...&#xD;&#xA;for /r &quot;$(TargetDir)&quot; %%f in (*.dll) do (&#xD;&#xA;&quot;C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe&quot; verify /q /pa &quot;%%f&quot; &gt;nul 2&gt;&amp;1&#xD;&#xA;if errorlevel 1 (&#xD;&#xA;echo Signing %%~nxf...&#xD;&#xA;&quot;C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe&quot; sign /q /tr &quot;http://timestamp.digicert.com&quot; /fd sha256 /td sha256 /sha1 ce53152c1f26905c8486015021eb7c608f35a759 &quot;%%f&quot;&#xD;&#xA;)&#xD;&#xA;)&#xD;&#xA;)&#xD;&#xA;" />
+  </Target>
+
+</Project>

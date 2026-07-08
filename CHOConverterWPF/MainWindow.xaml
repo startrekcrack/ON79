@@ -1,0 +1,81 @@
+
+    <Window x:Class="CHOConverterWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="CHOConverter" Height="600" Width="860"
+        Icon="Assets/ChoConverter.png"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        SourceInitialized="Window_SourceInitialized">
+    <DockPanel LastChildFill="True" Margin="12" Background="{DynamicResource WindowBackgroundBrush}">
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Name="txtStatus" />
+            </StatusBarItem>
+        </StatusBar>
+
+        <StackPanel DockPanel.Dock="Top" Orientation="Vertical" Margin="0,0,0,10">
+
+            <!-- Mode selection: Folder / Files -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                <RadioButton Name="rbFolder" IsChecked="True" VerticalAlignment="Center" Margin="0,0,18,0" Checked="rbMode_Checked" />
+                <RadioButton Name="rbFiles" VerticalAlignment="Center" Checked="rbMode_Checked" />
+            </StackPanel>
+
+            <!-- Folder input (visible in folder mode) -->
+            <Grid Name="gridFolderInput" Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Name="lblInput" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0" />
+                <TextBox Name="txtInput" Grid.Column="1" MinWidth="420" />
+                <Button Name="btnBrowseInput" Grid.Column="2" Margin="8,0,0,0" Padding="10,4" Click="btnBrowseInput_Click" />
+            </Grid>
+
+            <!-- Files input (visible in files mode) -->
+            <Grid Name="gridFilesInput" Margin="0,0,0,8" Visibility="Collapsed">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Name="lblInputFiles" Grid.Column="0" VerticalAlignment="Top" Margin="0,4,8,0" />
+                <ListBox Name="lstFiles" Grid.Column="1" Height="90"
+                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                <StackPanel Grid.Column="2" Margin="8,0,0,0" VerticalAlignment="Top">
+                    <Button Name="btnAddFiles" Padding="10,4" Margin="0,0,0,4" Click="btnAddFiles_Click" />
+                    <Button Name="btnClearFiles" Padding="10,4" Click="btnClearFiles_Click" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Margin="0,0,0,12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Name="lblOutput" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,8,0" />
+                <TextBox Name="txtOutput" Grid.Column="1" MinWidth="420" />
+                <Button Name="btnBrowseOutput" Grid.Column="2" Margin="8,0,0,0" Padding="10,4" Click="btnBrowseOutput_Click" />
+            </Grid>
+
+            <WrapPanel Margin="0,0,0,10" VerticalAlignment="Center">
+                <CheckBox Name="chkUseOcr" Margin="0,0,18,0" VerticalAlignment="Center" />
+
+                <TextBlock Name="lblOcrLang" VerticalAlignment="Center" Margin="0,0,6,0" />
+                <TextBox Name="txtOcrLanguage" Width="120" VerticalContentAlignment="Center" Margin="0,0,18,0" />
+
+                <TextBlock Name="lblOcrDpi" VerticalAlignment="Center" Margin="0,0,6,0" />
+                <TextBox Name="txtOcrDpi" Width="70" VerticalContentAlignment="Center" Margin="0,0,18,0" />
+
+                <Button Name="btnSettings" Padding="10,4" Margin="0,0,10,0" Click="btnSettings_Click" />
+                <Button Name="btnConvert" Padding="16,4" Margin="0,0,10,0" Click="btnConvert_Click" />
+                <Button Name="btnExit" Padding="10,4" Click="btnExit_Click" />
+            </WrapPanel>
+        </StackPanel>
+
+        <TextBox Name="txtLog" FontFamily="Consolas" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsReadOnly="True" />
+    </DockPanel>
+</Window>

@@ -1,0 +1,18 @@
+{title: Sample Song}
+{subtitle: Demo file for CHOConverter — original placeholder text, not a real song}
+{comment: This file only demonstrates the ChordPro (.cho) output format.}
+
+{start_of_verse}
+[C]This is a [G]sample line to [Am]show the [F]format,
+[C]chords in [G]brackets, [F]lyrics in be[C]tween.
+{end_of_verse}
+
+{start_of_chorus}
+[F]No real [C]song is [G]used here at [Am]all,
+[F]just a [C]placeholder [G]demo for [C]all.
+{end_of_chorus}
+
+{start_of_verse}
+[C]Convert your [G]own files to [Am]see the [F]result,
+[C]lyrics and [G]chords, [F]clean and de[C]fault.
+{end_of_verse}

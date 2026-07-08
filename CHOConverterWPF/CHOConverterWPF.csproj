@@ -1,0 +1,96 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	
+	<PropertyGroup>
+    <Platforms>AnyCPU</Platforms>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+		<AssemblyName>CHOConverterWPF</AssemblyName>
+		<Description>WPF GUI - Standalone DOCX / PDF to ChordPro converter using OpenXML</Description>
+		<Company>Oliver Niehus</Company>
+		<Version>1.0.0.1</Version>
+		<AssemblyVersion>1.0.0.1</AssemblyVersion>
+		<FileVersion>1.0.0.1</FileVersion>
+		<Copyright>Copyright    2021-2099</Copyright>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+		<PackageTags>docx;pdf;chordpro;song;converter;openxml</PackageTags>
+		<ApplicationIcon>Assets\CHOConverter_256x256.ico</ApplicationIcon>
+	</PropertyGroup>
+	
+	<ItemGroup>
+	  <None Remove="Assets\ChoConverter.png" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <Content Include="Assets\CHOConverter_256x256.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="DocumentFormat.OpenXml" Version="3.4.1" />
+		<PackageReference Include="Tesseract" Version="5.2.0" />
+		<PackageReference Include="Docnet.Core" Version="2.6.0" />
+		<PackageReference Include="UglyToad.PdfPig" Version="1.7.0-custom-5" />
+		<!--<PackageReference Include="System.Drawing.Common" Version="8.0.10" />-->
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\SongConvertersOCR\SongConvertersOCR.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Assets\ChoConverter.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Properties\Settings.Designer.cs">
+	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Settings.settings</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Properties\Settings.settings">
+	    <Generator>SettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+	  </None>
+	</ItemGroup>
+	
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+
+		<GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+			<Output TaskParameter="Assemblies" ItemName="Targets" />
+		</GetAssemblyIdentity>
+		<ItemGroup>
+			<VersionNumber Include="@(Targets->'%(Version)')" />
+		</ItemGroup>
+		
+	  <Exec Command="if /I &quot;$(Configuration)&quot;==&quot;Release&quot; (&#xD;&#xA;echo &quot;signing ...&quot;&#xD;&#xA;&quot;C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe&quot; sign /v /tr &quot;http://timestamp.digicert.com&quot; /fd sha256 /td sha256 /sha1 ce53152c1f26905c8486015021eb7c608f35a759 &quot;$(TargetPath)&quot;&#xD;&#xA;&quot;C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe&quot; sign /v /tr &quot;http://timestamp.digicert.com&quot; /fd sha256 /td sha256 /sha1 ce53152c1f26905c8486015021eb7c608f35a759 &quot;$(TargetDir)$(TargetName).exe&quot;&#xD;&#xA;)&#xD;&#xA;" />
+	  <!-- Copy x64 native DLLs -->
+  <Copy SourceFiles="..\SongConvertersOCR\bin\$(Configuration)\net10.0-windows\x64\tesseract50.dll" DestinationFolder="$(OutputPath)x64" ContinueOnError="true" />
+  <Copy SourceFiles="..\SongConvertersOCR\bin\$(Configuration)\net10.0-windows\x64\leptonica-1.82.0.dll" DestinationFolder="$(OutputPath)x64" ContinueOnError="true" />
+	  <Copy SourceFiles="$(NugetPackageRoot)docnet.core\2.1.2\runtimes\win-x64\native\pdfium.dll" DestinationFolder="$(OutputPath)x64" ContinueOnError="true" />
+	  <!-- Copy tessdata folder -->
+	  <ItemGroup>
+	    <TessdataFiles Include="$(NugetPackageRoot)tesseract\4.1.1\tessdata\**\*" />
+	  </ItemGroup>
+	  <Copy SourceFiles="@(TessdataFiles)" DestinationFiles="@(TessdataFiles->'$(OutputPath)tessdata\%(RecursiveDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+	</Target>
+
+	<!-- Remove non-Windows runtime folders (linux, osx) from build output -->
+	<Target Name="RemoveNonWindowsRuntimes" AfterTargets="Build">
+		<ItemGroup>
+			<NonWindowsRuntimeDirs Include="$(TargetDir)runtimes\linux\**" />
+			<NonWindowsRuntimeDirs Include="$(TargetDir)runtimes\linux-arm\**" />
+			<NonWindowsRuntimeDirs Include="$(TargetDir)runtimes\linux-arm64\**" />
+			<NonWindowsRuntimeDirs Include="$(TargetDir)runtimes\osx\**" />
+			<NonWindowsRuntimeDirs Include="$(TargetDir)runtimes\osx-arm64\**" />
+			<NonWindowsRuntimeDirs Include="$(TargetDir)runtimes\osx-x64\**" />
+		</ItemGroup>
+		<Delete Files="@(NonWindowsRuntimeDirs)" />
+		<RemoveDir Directories="$(TargetDir)runtimes\linux;$(TargetDir)runtimes\linux-arm;$(TargetDir)runtimes\linux-arm64;$(TargetDir)runtimes\osx;$(TargetDir)runtimes\osx-arm64;$(TargetDir)runtimes\osx-x64" />
+	</Target>
+</Project>

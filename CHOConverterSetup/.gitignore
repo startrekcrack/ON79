@@ -1,0 +1,8 @@
+Debug/
+Release/
+obj/
+*.user
+*.suo
+*.sln.docstates
+_ReSharper*/
+out/
