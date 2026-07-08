@@ -48,14 +48,21 @@ own licenses. See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
 ## Disclaimer
 
-CHOConverter is a **file-format conversion tool**. It ships **without** any
-copyrighted song material.
+CHOConverter is provided as a **sample / demonstration project** and a
+**file-format conversion tool**. It ships **without** any copyrighted song
+material.
 
+- **No warranty of any kind.** The software is provided "as is", without any
+  guarantee of functionality, fitness for a particular purpose, correctness of
+  the conversion output, security, or freedom from defects (see [LICENSE](LICENSE)).
+  Use at your own risk.
+- **Not security-hardened.** This is a hobby/sample project, not audited or
+  intended for security-critical or production use. Validate any output before
+  relying on it.
 - No copyrighted lyrics or sheet music are included in this repository. The
   only bundled sample uses **original placeholder** content (see [examples/](examples/)).
 - You are responsible for holding the necessary rights or a license (e.g. CCLI)
   for any song sheets you convert or distribute.
-- The software is provided "as is", without warranty of any kind (see LICENSE).
 
 ## Trademarks
 
