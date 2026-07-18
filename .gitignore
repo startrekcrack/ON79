@@ -1,6 +1,21 @@
 # .NET build output
 bin/
 obj/
+artifacts/
+publish/
+release/
+*.exe
+*.dll
+*.icl
+*.pdb
+*.msi
+*.msix
+*.appx
+*.nupkg
+*.snupkg
+*.zip
+*.7z
+*.pfx
 *.user
 *.suo
 
